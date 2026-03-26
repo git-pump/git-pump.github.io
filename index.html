@@ -33,6 +33,13 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html {
+      background-color: #0b1a20;
+      max-width: 100vw;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
+
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -40,6 +47,7 @@
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
       position: relative;
+      max-width: 100vw;
       overflow-x: hidden;
     }
 
@@ -69,8 +77,10 @@
 
     .container {
       max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
       padding: 0 24px;
+      overflow: clip;
     }
 
     /* ── HERO SECTION ── */
@@ -106,7 +116,17 @@
       .hero-left {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        min-width: 0;
+        width: calc(100vw - 48px);
+        max-width: calc(100vw - 48px);
+        overflow: hidden;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      .hero-left .gitpump-logo,
+      .hero-left .hero-brand {
+        align-self: center;
       }
     }
 
@@ -159,6 +179,7 @@
       margin-bottom: 20px;
       padding-left: 14px;
       border-left: 2px solid var(--green);
+      max-width: 520px;
     }
 
     .hero-support-lead {
@@ -175,6 +196,25 @@
       max-width: 520px;
     }
 
+    @media (max-width: 900px) {
+      .hero-subheadline {
+        border-left: none;
+        padding-left: 0;
+        width: calc(100vw - 48px);
+        max-width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+      .hero p {
+        width: calc(100vw - 48px);
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+
     .hero-actions {
       display: flex;
       gap: 16px;
@@ -184,6 +224,9 @@
     @media (max-width: 900px) {
       .hero-actions {
         justify-content: center;
+      }
+      .gh-card {
+        transform: none;
       }
     }
 
@@ -225,6 +268,117 @@
       transform: translateY(-1px);
     }
 
+    .hero-points {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 28px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .hero-points span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-points span::before {
+      content: '•';
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .code-preview {
+      margin-top: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--green);
+      background: rgba(44, 193, 88, 0.08);
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: inline-block;
+      border: 1px solid rgba(44, 193, 88, 0.15);
+    }
+
+    .mobile-github-cta {
+      display: none;
+    }
+
+    .mobile-br {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 32px 0 24px;
+        gap: 28px;
+      }
+      .gitpump-logo {
+        width: 56px;
+        height: 56px;
+        margin-bottom: 12px;
+      }
+      .hero h1 {
+        font-size: 1.9rem;
+        margin-bottom: 10px;
+        line-height: 1.2;
+      }
+      .mobile-br {
+        display: block;
+      }
+      .h1-accent {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 500;
+        font-style: italic;
+        color: var(--green);
+        letter-spacing: 0;
+        margin-top: 4px;
+        margin-bottom: 16px;
+      }
+      .hero-subheadline {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
+      .hero-points {
+        display: none;
+      }
+      .hero-actions {
+        display: none;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .code-preview {
+        align-self: center;
+        text-align: center;
+        font-size: 0.78rem;
+        padding: 8px 12px;
+        margin-top: 8px;
+      }
+      .code-block {
+        font-size: 0.75rem;
+        padding: 12px;
+        overflow-x: hidden;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        text-align: left;
+      }
+      .mobile-github-cta {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 0;
+      }
+      .mobile-github-cta .btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+    }
+
     /* ── GITHUB MOCKUP ── */
     .hero-right {
       perspective: 1000px;
@@ -238,6 +392,7 @@
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
       transform: rotateY(-2deg) rotateX(2deg);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
+      text-align: left;
     }
 
     .gh-card:hover {
@@ -424,7 +579,9 @@
     }
     
     @media (max-width: 600px) {
-      .section-header h2 { font-size: 2rem; }
+      .section-header h2 { font-size: 1.9rem; font-weight: 800; }
+      .section-header { margin-bottom: 32px; }
+      .how-it-works { padding: 48px 0 64px; }
     }
 
     .steps-grid {
@@ -571,13 +728,18 @@
       <div class="hero-left">
         <img src="/gitpump-logo.png" alt="GitPump Logo" class="gitpump-logo" />
         <div class="hero-brand">GitPump</div>
-        <h1>Pump.fun is powerful, but not for everyone.</h1>
-        <p class="hero-subheadline">GitPump turns GitHub commands into intentional token launches. Only real developers, real launches.</p>
-        <p><em class="hero-support-lead">Built for developers who understand the risks, not just triggering /launch.</em> Responsible developers know the risks. Our bot ensures only qualified contributors can launch safely. Pump.fun is powerful, but random launches hurt both users and developers. Our GitHub bot safeguards developers from fake launches and ensures buyers interact only with authentic tokens on Pump.fun.</p>
+        <h1>Launch on Pump.fun<br class="mobile-br"> directly from GitHub, <span class="h1-accent">built for responsible developers.</span></h1>
+        <p class="hero-subheadline">GitPump upgrades Pump.fun launches with structured, GitHub-powered execution, reducing random and misleading tokens while creating a safer and more trustworthy experience for both developers and buyers.</p>
+        <div class="hero-points">
+          <span>Launch directly from GitHub</span>
+          <span>Command-based deployment</span>
+          <span>Built for real developers</span>
+        </div>
         <div class="hero-actions">
           <a href="https://gitpump.com" class="btn btn-primary">View All Launches</a>
           <a href="https://github.com/git-pump/gitpump/issues/1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Launch on GitHub</a>
         </div>
+        <div class="code-preview">/launch name=YourToken symbol=TICKER</div>
       </div>
 
       <div class="hero-right">
@@ -625,6 +787,11 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="mobile-github-cta">
+        <a href="https://gitpump.com" class="btn btn-primary">View All Launches</a>
+        <a href="https://github.com/git-pump/gitpump/issues/1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Launch on GitHub</a>
       </div>
     </header>
 
