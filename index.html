@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitPump — Launch Solana Tokens from GitHub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0b1a20;
+      --bg-card:   #0e2028;
+      --bg-deep:   #071318;
+      --border:    #183040;
+      --green:     #2cc158;
+      --green-dim: #1d8a3e;
+      --green-glow:rgba(44, 193, 88, 0.15);
+      --teal:      #1b3a47;
+      --text:      #e2f0f5;
+      --muted:     #6a97a8;
+      --dim:       #2e5060;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      padding: 80px 20px 70px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 500px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(44,193,88,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .gitpump-logo {
+      width: 72px; height: 72px;
+      display: block;
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 0 16px rgba(44,193,88,0.5));
+    }
+
+    header h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: #fff;
+    }
+    header h1 span { color: var(--green); }
+
+    header p {
+      margin: 18px auto 0;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 14px 36px;
+      background: var(--green);
+      color: #041008;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 20px rgba(44,193,88,0.3);
+    }
+    .cta:hover {
+      background: #38d96a;
+      box-shadow: 0 0 28px rgba(44,193,88,0.5);
+    }
+
+    /* ── HOW IT WORKS ── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    .section-label {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-label span {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(44,193,88,0.1);
+      border: 1px solid rgba(44,193,88,0.25);
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .section-label h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 22px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .step:hover {
+      border-color: var(--green-dim);
+      box-shadow: 0 0 24px rgba(44,193,88,0.08);
+    }
+
+    .step .num {
+      width: 42px; height: 42px;
+      background: rgba(44,193,88,0.08);
+      border: 1.5px solid var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+      font-weight: 700;
+      color: var(--green);
+      font-size: 0.95rem;
+    }
+
+    .step h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .step p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    code.cmd {
+      color: var(--green);
+      font-size: 0.82rem;
+      background: rgba(44,193,88,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── POWERED BY ── */
+    .powered {
+      text-align: center;
+      padding: 44px 20px 64px;
+    }
+    .powered p {
+      font-size: 0.72rem;
+      color: var(--dim);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+    .logo-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .logo-item:hover { color: var(--text); }
+    .logo-item svg { opacity: 0.55; flex-shrink: 0; }
+    .logo-item:hover svg { opacity: 0.9; }
+    .logo-item img {
+      height: 22px;
+      opacity: 0.65;
+      mix-blend-mode: screen;
+    }
+    .logo-item:hover img { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/gitpump-logo.png" class="gitpump-logo" alt="GitPump" />
+  <h1>Git<span>Pump</span></h1>
+  <p>Responsible developers know the risks. Our bot ensures only qualified contributors can launch safely. Pump.fun is powerful, but random launches hurt both users and developers. Our GitHub bot safeguards developers from fake launches and ensures buyers interact only with authentic tokens on Pump.fun.</p>
+  <a class="cta" href="https://gitpump.com">View All Launches</a>
+</header>
+
+<section>
+  <div class="section-label">
+    <span>How It Works</span>
+    <h2>From a GitHub comment to live on Pump.fun</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Open an Issue</h3>
+      <p>Go to the GitPump repo and open the launch issue. Anyone with a GitHub account can participate.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>Drop a Comment</h3>
+      <p>Post a <code class="cmd">/launch</code> command with your token name, symbol, description, and logo attached.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Bot Does the Rest</h3>
+      <p>The GitPump bot uploads your logo to IPFS and deploys your token directly on Pump.fun.</p>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <h3>Go Live</h3>
+      <p>Your token is live on Pump.fun and appears on the GitPump feed for everyone to see.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<div class="powered">
+  <p>Powered by</p>
+  <div class="logos">
+    <div class="logo-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#e2f0f5">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+      GitHub
+    </div>
+    <div class="logo-item">
+      <svg width="20" height="20" viewBox="0 0 397.7 311.7" fill="none">
+        <path d="M64.6 237.9a10 10 0 0 1 7-2.9h317.3c4.4 0 6.6 5.4 3.5 8.5l-56.1 56.1a10 10 0 0 1-7 2.9H12c-4.4 0-6.6-5.4-3.5-8.5l56.1-56.1z" fill="#e2f0f5"/>
+        <path d="M64.6 10.7a10.2 10.2 0 0 1 7-2.9h317.3c4.4 0 6.6 5.4 3.5 8.5l-56.1 56.1a10 10 0 0 1-7 2.9H12c-4.4 0-6.6-5.4-3.5-8.5L64.6 10.7z" fill="#e2f0f5"/>
+        <path d="M333.1 124.3a10 10 0 0 0-7-2.9H8.8c-4.4 0-6.6 5.4-3.5 8.5l56.1 56.1a10 10 0 0 0 7 2.9h317.3c4.4 0 6.6-5.4 3.5-8.5l-56.1-56.1z" fill="#e2f0f5"/>
+      </svg>
+      Solana
+    </div>
+    <div class="logo-item">
+      <img src="/pumpfun-logo.png" alt="Pump.fun" />
+      Pump.fun
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
