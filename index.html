@@ -64,6 +64,9 @@
     .nav-logo img { width: 28px; height: 28px; }
     .nav-logo span { font-weight: 800; font-size: 1rem; color: var(--text); }
     .nav-logo span em { color: var(--green); font-style: normal; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-x { color: rgba(255,255,255,0.5); transition: color 0.2s; display: flex; align-items: center; }
+    .nav-x:hover { color: #fff; }
     .nav-cta {
       background: var(--green); color: #000; font-weight: 700;
       font-size: 0.85rem; padding: 8px 18px; border-radius: 8px;
@@ -351,7 +354,12 @@
       <img src="/gitpump-logo.png" alt="GitPump" />
       <span>Git<em>Pump</em></span>
     </a>
-    <a class="nav-cta" href="https://github.com/apps/gitpump-bot" target="_blank" rel="noopener">Install GitPump Bot</a>
+    <div class="nav-right">
+      <a class="nav-x" href="https://x.com/gitpumpdev" target="_blank" rel="noopener noreferrer" title="Follow on X">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="nav-cta" href="https://github.com/apps/gitpump-bot" target="_blank" rel="noopener">Install GitPump Bot</a>
+    </div>
   </div>
 </nav>
 
